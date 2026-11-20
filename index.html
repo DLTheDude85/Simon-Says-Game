@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- viewport-fit=cover lets the page use the full screen on notched phones; safe-area padding in style.css keeps content clear of the notch -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Simon Memory Game | DevinLeeTech</title>
+
+  <!-- All styling lives in style.css -->
+  <link rel="stylesheet" href="style.css">
+<!-- SEO:START (written by tools/update-seo.py - do not edit by hand; change the PAGES table in that script instead) -->
+<meta name="description" content="Play a Simon memory game in your browser: watch the color sequence, repeat it, and see how far you can go. Includes a strict mode.">
+<link rel="canonical" href="https://devinleetech.com/games/simon-game/">
+<meta property="og:site_name" content="DevinLeeTech">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Simon Memory Game | DevinLeeTech">
+<meta property="og:description" content="Play a Simon memory game in your browser: watch the color sequence, repeat it, and see how far you can go. Includes a strict mode.">
+<meta property="og:url" content="https://devinleetech.com/games/simon-game/">
+<meta property="og:image" content="https://devinleetech.com/images/social/games-simon-game.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Simon Memory Game">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simon Memory Game | DevinLeeTech">
+<meta name="twitter:description" content="Play a Simon memory game in your browser: watch the color sequence, repeat it, and see how far you can go. Includes a strict mode.">
+<meta name="twitter:image" content="https://devinleetech.com/images/social/games-simon-game.jpg">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#070b14">
+<!-- SEO:END -->
+</head>
+<body>
+
+  <!--
+    Back button returns to the main Games page using a relative path.
+  -->
+  <a class="back-link" href="../../games.html" aria-label="Back to games">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 5 8 12 15 19"></polyline>
+    </svg>
+    <span>Back</span>
+  </a>
+
+  <main class="game">
+    <h1 class="title">Simon</h1>
+
+    <!--
+      Highest level reached on this device in the current mode (normal or strict).
+      simon.js fills in the label and number and remembers them between visits.
+    -->
+    <p id="best" class="best"><span id="best-label">Best level</span>: <span id="best-level">–</span></p>
+
+    <!--
+      The game board: four colored pads in a 2x2 grid, shaped into one circle by CSS.
+      - data-color is read by simon.js to know which pad was clicked.
+      - aria-label gives screen readers a name, since the pads contain no text.
+      - Pads start disabled; simon.js enables them only during the player's turn.
+    -->
+    <div id="board" class="board">
+      <button type="button" class="pad pad-green"  data-color="green"  aria-label="Green"  disabled></button>
+      <button type="button" class="pad pad-red"    data-color="red"    aria-label="Red"    disabled></button>
+      <button type="button" class="pad pad-yellow" data-color="yellow" aria-label="Yellow" disabled></button>
+      <button type="button" class="pad pad-blue"   data-color="blue"   aria-label="Blue"   disabled></button>
+
+      <!-- Center hub: shows the current level and holds the Start / Restart button -->
+      <div class="hub">
+        <span class="hub-label">Level</span>
+        <span id="current-level" class="hub-level">–</span>
+        <button type="button" id="start-button" class="start-button idle">Start</button>
+      </div>
+    </div>
+
+    <!--
+      Status message: replaces the old alert() popups.
+      role="status" makes screen readers announce changes automatically.
+      The data-state attribute ("info", "good" or "bad") controls its color in CSS.
+    -->
+    <p id="status" class="status" data-state="info" role="status">Press Start to play.</p>
+
+    <!-- Switches under the board. role="switch" + aria-checked tell screen readers these are on/off toggles. -->
+    <div class="controls">
+      <!-- Sound switch: turns the tones on or off (remembered between visits) -->
+      <button type="button" id="sound-button" class="toggle-button" role="switch" aria-checked="true">
+        Sound: On
+      </button>
+      <!-- Strict mode switch: when on, one wrong pad ends the game -->
+      <button type="button" id="strict-button" class="toggle-button" role="switch" aria-checked="false">
+        Strict mode: Off
+      </button>
+    </div>
+  </main>
+
+  <!-- Game logic (loaded last so the elements above already exist) -->
+  <script src="simon.js"></script>
+</body>
+</html>
